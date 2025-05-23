@@ -1,0 +1,53 @@
+# models/yolov5-lite.yaml
+# loss: yolo-lite-loss
+# ------------------- 基础参数 -------------------
+nc: 20                    # 类别数（与YOLO-LITE对齐）
+depth_multiple: 1.0  # 保持原始深度
+width_multiple: 1.0  # 保持原始宽度
+#depth_multiple: 0.33      # 深度缩放因子（保持轻量）
+#width_multiple: 0.25      # 宽度缩放因子
+anchors:                  # 锚点配置（与YOLO-LITE一致）
+#  - [1.08,1.19]
+#  - [3.42,4.41]
+#  - [6.63,11.38]
+#  - [9.42,5.11]
+#  - [16.62,10.52]
+  - [6,41]
+  - [22,22]
+  - [14,41]
+  - [26,41]
+  - [52,22]
+#    6,41,  22,22,  14,41,  26,41,  52,22
+
+# ------------------- Backbone -------------------
+backbone:
+  # 第1阶段 (224x224 -> 112x112)
+  [[-1, 1, ConvLite, [16, 3, 1, None, 1, 'leaky']],  # 对应第一个convolutional层
+   [-1, 1, MaxPool, [2, 2, 0]],  # maxpool层
+
+  # 第2阶段 (112x112 -> 56x56)
+  [-1, 1, ConvLite, [32, 3, 1, None, 1, 'leaky']],
+   [-1, 1, MaxPool, [2, 2, 0]],
+
+  # 第3阶段 (56x56 -> 28x28)
+  [-1, 1, ConvLite, [64, 3, 1, None, 1, 'leaky']],
+   [-1, 1, MaxPool, [2, 2, 0]],
+
+  # 第4阶段 (28x28 -> 14x14)
+  [-1, 1, ConvLite, [128, 3, 1, None, 1, 'leaky']],
+   [-1, 1, MaxPool, [2, 2, 0]],
+
+  # 第5阶段 (14x14 -> 7x7)
+  [-1, 1, ConvLite, [256, 3, 1, None, 1, 'leaky']],
+   [-1, 1, MaxPool, [2, 2, 0]]]
+
+
+
+# ------------------- Head -------------------
+head:
+  # 检测头（对应最后两个convolutional层）
+  [[-1, 1, ConvLite, [256, 3, 1, None, 1, 'leaky']],  # 倒数第二层
+   [-1, 1, ConvLite, [(nc+5)*len(anchors), 1, 1, None, 1, 'linear']],  # 输出层
+   [[-1], 1, RegionLite, [nc, anchors, [(nc+5)*len(anchors)]]]  # 自定义Region层
+  ]
+#  - [[10], 1, RegionLite, [nc, anchors, [125]]]  # 显式传递参数 <-- 关键修改
