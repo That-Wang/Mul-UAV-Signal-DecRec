@@ -1,0 +1,120 @@
+目前已经配置好的环境名 为 yolo conda activate yolo
+给予文件权限
+sudo chmod 777 <路径>
+查看训练模型的结构
+https://netron.app/
+
+按下Win+R键输入cmd进入命令窗口输入下面的代码
+nvcc -v
+
+进入不同盘的目录
+cd /d 路径名
+
+查询conda版本
+conda -V
+
+查看环境列表 看看安装了多少个环境
+conda env list
+
+查看当前环境下已安装的包
+conda list
+
+查看某个指定环境的已安装包
+conda list -n 环境名
+
+查询所有conda环境
+conda info -e
+
+创建新的conda 环境  注：如果之前开了VPN无法创建新的环境了 需要把VPN 系统代理 改为直连再退出去即可。
+# conda create --name [环境名] python=[python版本]
+conda create --name conda_name python=3.7.16
+
+进入相应的conda环境
+# conda activate [环境名]
+conda activate conda_name
+
+退出当前conda环境
+conda deactivate
+
+在conda环境中添加库
+conda install tensorflow-gpu==1.15.4
+
+删除相应conda环境
+# conda remove -n [环境名] --all
+conda remove -n conda_name --all
+
+根据环境路径复制生成新的环境
+# conda create -n [新环境名称] --clone [现有环境名称]
+conda create -n new_name --clone conda_name
+
+
+yolov5的pytorch pycharm gpu配置使用 
+首先要安装cuda conda pycharm 以及yolov5源码
+参考链接；https://blog.csdn.net/m0_45696735/article/details/118253942
+
+eadec4eb2a63df5863449490a62633b7d22c21e1
+
+# 激活名为pytorch的环境
+activate pytorch
+
+安装yolov5的需求 在conda环境下 
+pip install -r requirements.txt
+
+# 跳转到安装好的whl文件目录下
+cd C:\Users\17394\Downloads
+# pip安装下载好的whl文件
+pip install torch-1.7.1+cu110-cp37-cp37m-win_amd64.whl
+pip install torchvision-0.8.2+cu110-cp37-cp37m-win_amd64.whl
+可以换源： -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+
+conda安装步骤
+博客链接：https://blog.csdn.net/sinat_39620217/article/details/115861876
+
+添加镜像源
+清华镜像
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+#阿里
+conda config --add channels https://mirrors.aliyun.com/pypi/simple/
+#中国科技大学
+conda config --add channels https://mirrors.ustc.edu.cn/pypi/web/simple
+
+移除镜像源
+conda config --remove channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+
+标注工具labelme安装 
+参考博客：https://blog.csdn.net/Miaofrog/article/details/104381360
+激活新环境或已有环境
+（1）创建新环境（例如创建一个名为environment2的新环境）
+conda create --name=pytorch python=3.7.10
+（3）再激活新环境
+activate environment2
+
+第三步：安装pyqt5和pyside2
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pyqt5
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pyside2
+
+安装labelme 
+输入命令：
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple labelme
+
+打开lebelme
+在该环境下直接输入：labelme，即可打开labelme
+
+公司框架：pt转wts
+python <模型路径> -t detect
+
+wts转engine
+yolov5_det当前目录下运行
+./yolov5_det -s best.wts 0101.engine s   (wts名字-转换的engine名字)
+
+一些源
+
+https://pypi.douban.com/simple/
+
+（1）阿里云 http://mirrors.aliyun.com/pypi/simple/
+（2）豆瓣http://pypi.douban.com/simple/
+（3）清华大学 https://pypi.tuna.tsinghua.edu.cn/simple/
+（4）中国科学技术大学 http://pypi.mirrors.ustc.edu.cn/simple/
+（5）华中科技大学http://pypi.hustunique.com/
+
