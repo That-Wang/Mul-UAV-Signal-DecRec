@@ -302,6 +302,7 @@ def train(model, dataloader, criterion, optimizer, device, modalities):
     acc = correct / total
     return running_loss / len(dataloader), acc
 
+
 def validate(model, dataloader, criterion, device, modalities):
     model.eval()
     running_loss = 0.0
@@ -325,6 +326,7 @@ def validate(model, dataloader, criterion, device, modalities):
 
     acc = correct / total
     return running_loss / len(dataloader), acc
+
 
 def predict(models, dataloader, device, modalities, outfilepath):
     # Test the models
